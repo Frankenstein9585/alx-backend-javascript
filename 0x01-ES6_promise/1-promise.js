@@ -4,9 +4,7 @@ export default function getResponseFromAPI(success) {
       status: 200,
       body: 'Success',
     };
-    const error = {
-      Error: 'The fake API is not working currently',
-    };
+    const error = new Error('The fake API is not working currently');
 
     if (!success) {
       reject(error);
