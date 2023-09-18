@@ -22,14 +22,16 @@ function countStudents(path) {
     const SWEList = [];
 
     readInterface.on('line', (line) => {
-      const firstName = line.split(',')[0];
-      studentsCount += 1;
-      if (line.includes('CS')) {
-        CSCount += 1;
-        CSList.push(firstName);
-      } else if (line.includes('SWE')) {
-        SWECount += 1;
-        SWEList.push(firstName);
+      if (line.length > 0) {
+        const firstName = line.split(',')[0];
+        studentsCount += 1;
+        if (line.includes('CS')) {
+          CSCount += 1;
+          CSList.push(firstName);
+        } else if (line.includes('SWE')) {
+          SWECount += 1;
+          SWEList.push(firstName);
+        }
       }
     });
 
