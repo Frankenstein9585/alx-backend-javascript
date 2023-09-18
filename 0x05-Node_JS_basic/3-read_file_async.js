@@ -2,6 +2,8 @@ const readline = require('readline');
 const fs = require('fs');
 
 function countStudents(path) {
+  const fields = {};
+  let studentCount = 0;
   return new Promise((resolve, reject) => {
     fs.access(path, fs.constants.F_OK, (err) => {
       if (err) {
@@ -15,30 +17,25 @@ function countStudents(path) {
       terminal: false,
     });
 
-    let studentsCount = 0;
-    let CSCount = 0;
-    let SWECount = 0;
-    const CSList = [];
-    const SWEList = [];
-
     readInterface.on('line', (line) => {
       if (line.length > 0) {
+        studentCount += 1;
         const firstName = line.split(',')[0];
-        studentsCount += 1;
-        if (line.includes('CS')) {
-          CSCount += 1;
-          CSList.push(firstName);
-        } else if (line.includes('SWE')) {
-          SWECount += 1;
-          SWEList.push(firstName);
+        const field = line.split(',')[3];
+        if (!fields[field]) {
+          fields[field] = [];
         }
+        fields[field].push(firstName);
       }
     });
 
     readInterface.on('close', () => {
-      console.log(`Number of students: ${studentsCount - 1}`);
-      console.log(`Number of students in CS: ${CSCount}. List: ${CSList.join(', ')}`);
-      console.log(`Number of students in SWE: ${SWECount}. List: ${SWEList.join(', ')}`);
+      delete fields.field;
+      console.log(`Number of students: ${studentCount - 1}`);
+      // eslint-disable-next-line guard-for-in
+      for (const field in fields) {
+        console.log(`Number of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`);
+      }
       resolve();
     });
   });
