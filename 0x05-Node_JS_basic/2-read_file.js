@@ -4,25 +4,23 @@ const fs = require('fs');
 function countStudents(path) {
   try {
     const fields = {};
-    const CSList = [];
-    const SWEList = [];
     const data = fs.readFileSync(path, 'utf-8').split('\n');
 
     data.shift();
     data.forEach((line) => {
       const firstName = line.split(',')[0];
-      if (line.includes('CS')) {
-        CSList.push(firstName);
-        fields[line.split(',')[3]] = CSList;
-      } else if (line.includes('SWE')) {
-        SWEList.push(firstName);
-        fields[line.split(',')[3]] = SWEList;
+      const field = line.split(',')[3];
+      if (!fields[field]) {
+        fields[field] = [];
       }
+      fields[field].push(firstName);
     });
 
     console.log(`Number of students: ${data.length}`);
-    console.log(`Number of students in ${Object.keys(fields)[0]}: ${CSList.length}. List: ${CSList.join(', ')}`);
-    console.log(`Number of students in ${Object.keys(fields)[1]}: ${SWEList.length}. List: ${SWEList.join(', ')}`);
+    // eslint-disable-next-line guard-for-in
+    for (const field in fields) {
+      console.log(`Number of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`);
+    }
   } catch (error) {
     throw new Error('Cannot load the database');
   }
