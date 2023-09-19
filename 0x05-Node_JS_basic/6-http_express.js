@@ -11,3 +11,5 @@ app.get('/', (req, res) => {
 app.listen(port, hostname, () => {
   console.log(`${hostname} running on port ${port}`);
 });
+
+module.exports = app;
