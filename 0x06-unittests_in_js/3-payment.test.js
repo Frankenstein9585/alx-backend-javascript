@@ -1,0 +1,11 @@
+const Utils = require('./utils')
+const sinon = require('sinon');
+const sendPaymentRequestToApi = require('./3-payment')
+
+describe('sendPaymentRequestToApi', () => {
+    it('checks that calculateNumber was called',  () => {
+        let spy = sinon.spy(Utils, "calculateNumber");
+        sendPaymentRequestToApi(100, 20);
+        sinon.assert.calledOnce(spy);
+    });
+})
