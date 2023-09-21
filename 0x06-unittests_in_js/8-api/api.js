@@ -2,7 +2,6 @@ const express = require('express');
 
 app = express()
 
-const hostname = 'localhost';
 const port = 7865;
 
 app.get('/', (req, res) => {
@@ -10,8 +9,8 @@ app.get('/', (req, res) => {
     res.end();
 });
 
-app.listen(port, hostname, () => {
-    console.log(`API available on ${hostname} port ${port}`);
+app.listen(port, () => {
+    console.log(`API available on localhost port ${port}`);
 });
 
 module.exports = app;
